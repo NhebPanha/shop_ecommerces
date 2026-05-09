@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Light Theme (Default) */
+  --bg-main: #f8fafc;
+  --bg-card: rgba(255, 255, 255, 0.7);
+  --accent: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.15);
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border: rgba(0, 0, 0, 0.06);
+  --glass: blur(16px);
+  --sidebar-bg: rgba(255, 255, 255, 0.8);
+}
+
+/* Dark Theme Variables (Reusable Block) */
+:root.dark,
+:root:not(.light) {
+  --dark-bg: #09090b;
+  --dark-card: rgba(24, 24, 27, 0.6);
+  --dark-text: #fafafa;
+  --dark-muted: #a1a1aa;
+  --dark-border: rgba(255, 255, 255, 0.08);
+  --dark-sidebar: rgba(24, 24, 27, 0.8);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --bg-main: var(--dark-bg);
+    --bg-card: var(--dark-card);
+    --text-main: var(--dark-text);
+    --text-muted: var(--dark-muted);
+    --border: var(--dark-border);
+    --sidebar-bg: var(--dark-sidebar);
+  }
+}
+
+:root.dark {
+  --bg-main: var(--dark-bg);
+  --bg-card: var(--dark-card);
+  --text-main: var(--dark-text);
+  --text-muted: var(--dark-muted);
+  --border: var(--dark-border);
+  --sidebar-bg: var(--dark-sidebar);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  overflow-x: hidden;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  opacity: 0.2;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
