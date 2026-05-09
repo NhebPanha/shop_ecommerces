@@ -14,7 +14,7 @@
     <div class="filters glass">
       <div class="search-box">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" placeholder="Search by name, email..." />
+        <input type="text" v-model="globalSearch" placeholder="Search by name, email..." />
       </div>
       <div class="filter-actions">
         <select class="filter-select">
@@ -42,7 +42,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.email">
+          <tr v-for="user in filteredUsers" :key="user.email">
             <td>
               <div class="user-cell">
                 <img :src="user.avatar" :alt="user.name" />
@@ -71,6 +71,7 @@
 </template>
 
 <script setup>
+const globalSearch = useGlobalSearch()
 const users = ref([])
 
 onMounted(() => {
@@ -87,6 +88,13 @@ onMounted(() => {
     ]
     saveToStorage()
   }
+})
+
+const filteredUsers = computed(() => {
+  return users.value.filter(u => 
+    u.name.toLowerCase().includes(globalSearch.value.toLowerCase()) ||
+    u.email.toLowerCase().includes(globalSearch.value.toLowerCase())
+  )
 })
 
 function saveToStorage() {

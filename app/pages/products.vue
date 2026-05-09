@@ -14,7 +14,7 @@
     <div class="filters glass">
       <div class="search-box">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" v-model="searchQuery" placeholder="Search products..." />
+        <input type="text" v-model="globalSearch" placeholder="Search products..." />
       </div>
       <div class="filter-actions">
         <div class="category-pills">
@@ -90,7 +90,7 @@
 </template>
 
 <script setup>
-const searchQuery = ref('')
+const globalSearch = useGlobalSearch()
 const selectedCategory = ref('All')
 const sortBy = ref('newest')
 const categories = ['All', 'Electronics', 'Fashion', 'Home']
@@ -120,7 +120,7 @@ function saveToStorage() {
 
 const filteredProducts = computed(() => {
   let result = products.value.filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    const matchesSearch = p.name.toLowerCase().includes(globalSearch.value.toLowerCase())
     const matchesCategory = selectedCategory.value === 'All' || p.category === selectedCategory.value
     return matchesSearch && matchesCategory
   })
