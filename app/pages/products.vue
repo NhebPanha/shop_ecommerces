@@ -95,13 +95,28 @@ const selectedCategory = ref('All')
 const sortBy = ref('newest')
 const categories = ['All', 'Electronics', 'Fashion', 'Home']
 
-const products = ref([
-  { id: 1, name: 'iPhone 15 Pro Max', category: 'Electronics', price: 1199.00, stock: 45, status: 'Active', image: 'https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=500' },
-  { id: 2, name: 'MacBook Air M3', category: 'Electronics', price: 1299.00, stock: 12, status: 'Active', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500' },
-  { id: 3, name: 'Leather Messenger Bag', category: 'Fashion', price: 185.00, stock: 8, status: 'Low', image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=500' },
-  { id: 4, name: 'Sony WH-1000XM5', category: 'Electronics', price: 349.00, stock: 24, status: 'Active', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=500' },
-  { id: 5, name: 'Ceramic Coffee Set', category: 'Home', price: 45.00, stock: 0, status: 'Out', image: 'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?q=80&w=500' },
-])
+const products = ref([])
+
+onMounted(() => {
+  const savedProducts = localStorage.getItem('products')
+  if (savedProducts) {
+    products.value = JSON.parse(savedProducts)
+  } else {
+    // Initial dummy data if nothing is saved
+    products.value = [
+      { id: 1, name: 'iPhone 15 Pro Max', category: 'Electronics', price: 1199.00, stock: 45, status: 'Active', image: 'https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=500' },
+      { id: 2, name: 'MacBook Air M3', category: 'Electronics', price: 1299.00, stock: 12, status: 'Active', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500' },
+      { id: 3, name: 'Leather Messenger Bag', category: 'Fashion', price: 185.00, stock: 8, status: 'Low', image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=500' },
+      { id: 4, name: 'Sony WH-1000XM5', category: 'Electronics', price: 349.00, stock: 24, status: 'Active', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=500' },
+      { id: 5, name: 'Ceramic Coffee Set', category: 'Home', price: 45.00, stock: 0, status: 'Out', image: 'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?q=80&w=500' },
+    ]
+    saveToStorage()
+  }
+})
+
+function saveToStorage() {
+  localStorage.setItem('products', JSON.stringify(products.value))
+}
 
 const filteredProducts = computed(() => {
   let result = products.value.filter(p => {
@@ -142,12 +157,14 @@ function handleSave() {
   } else {
     products.value.unshift(productData)
   }
+  saveToStorage()
   showModal.value = false
 }
 
 function deleteProduct(id) {
   if (confirm('Are you sure you want to delete this product?')) {
     products.value = products.value.filter(p => p.id !== id)
+    saveToStorage()
   }
 }
 

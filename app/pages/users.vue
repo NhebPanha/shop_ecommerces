@@ -71,13 +71,27 @@
 </template>
 
 <script setup>
-const users = [
-  { name: 'Olivia Johanson', email: 'olivia@example.com', avatar: 'https://i.pravatar.cc/150?u=olivia', orders: 12, spent: '1,240.50', status: 'Active', joined: 'Jan 12, 2024' },
-  { name: 'Marcus Wright', email: 'marcus.w@example.com', avatar: 'https://i.pravatar.cc/150?u=marcus', orders: 5, spent: '450.00', status: 'Active', joined: 'Feb 05, 2024' },
-  { name: 'Isabella Rossi', email: 'i.rossi@example.com', avatar: 'https://i.pravatar.cc/150?u=isabella', orders: 2, spent: '120.00', status: 'Inactive', joined: 'Mar 15, 2024' },
-  { name: 'Nathan Drake', email: 'drake@uncharted.com', avatar: 'https://i.pravatar.cc/150?u=nathan', orders: 24, spent: '3,890.00', status: 'Active', joined: 'Jan 20, 2023' },
-  { name: 'Sophia Miller', email: 'sophia.m@example.com', avatar: 'https://i.pravatar.cc/150?u=sophia', orders: 8, spent: '890.00', status: 'Active', joined: 'Apr 02, 2024' },
-]
+const users = ref([])
+
+onMounted(() => {
+  const savedUsers = localStorage.getItem('users')
+  if (savedUsers) {
+    users.value = JSON.parse(savedUsers)
+  } else {
+    users.value = [
+      { name: 'Olivia Johanson', email: 'olivia@example.com', avatar: 'https://i.pravatar.cc/150?u=olivia', orders: 12, spent: '1,240.50', status: 'Active', joined: 'Jan 12, 2024' },
+      { name: 'Marcus Wright', email: 'marcus.w@example.com', avatar: 'https://i.pravatar.cc/150?u=marcus', orders: 5, spent: '450.00', status: 'Active', joined: 'Feb 05, 2024' },
+      { name: 'Isabella Rossi', email: 'i.rossi@example.com', avatar: 'https://i.pravatar.cc/150?u=isabella', orders: 2, spent: '120.00', status: 'Inactive', joined: 'Mar 15, 2024' },
+      { name: 'Nathan Drake', email: 'drake@uncharted.com', avatar: 'https://i.pravatar.cc/150?u=nathan', orders: 24, spent: '3,890.00', status: 'Active', joined: 'Jan 20, 2023' },
+      { name: 'Sophia Miller', email: 'sophia.m@example.com', avatar: 'https://i.pravatar.cc/150?u=sophia', orders: 8, spent: '890.00', status: 'Active', joined: 'Apr 02, 2024' },
+    ]
+    saveToStorage()
+  }
+})
+
+function saveToStorage() {
+  localStorage.setItem('users', JSON.stringify(users.value))
+}
 </script>
 
 <style scoped>
